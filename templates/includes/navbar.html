@@ -1,0 +1,46 @@
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <a class="navbar-brand" href="/">"BLANK_NAME"</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+        aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="/about">About</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/articles">Articles</a>
+            </li>
+        </ul>
+
+        </li>
+
+        <ul class="navbar-nav margin-right">
+        
+        {% if session["logged_in"] %}
+            
+            <li class="nav-item active">
+                <a class="nav-link" href="/logout"><strong>Logout</strong></a>
+            </li>
+            
+            <li class="nav-item active">
+                <a class="nav-link" href="/dashboard"><strong>Control Panel</strong></a>
+            </li>
+            
+        {% else %}
+            
+            <li class="nav-item active">
+                <a class="nav-link" href="/login"><strong>Login</strong></a>
+            </li>        
+        
+                <li class="nav-item active">
+                <a class="nav-link" href="/register"><strong>Register</strong></a>
+            </li>
+            
+        {% endif %}
+
+        </ul>
+        
+    </div>
+</nav>

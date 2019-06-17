@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+<h3 style="font-weight: bold">
+    Control Panel
+</h3>
+
+<small>Welcome, <strong>{{session["username"]}}</strong></small>
+<hr>
+
+<a href="/addarticle" class="btn btn-dark">Add Article</a>
+
+{% endblock body %}
