@@ -49,7 +49,7 @@ class Login(Form):
     password = PasswordField("Password:")
 
 
-####### Login Form
+####### Article Form
 
 class Article(Form):
     
@@ -186,7 +186,7 @@ def add_article():
         title = form.title.data
         content = form.content.data
         
-        cursor = mysql.connection.cursor()
+        cursor = mysql.connection.cursor
         inquiry = "INSERT INTO articles(title, author, content) VALUES(%s,%s,%s)"
         cursor.execute(inquiry,(title, session["username"], content))
 
