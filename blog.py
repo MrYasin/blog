@@ -82,12 +82,37 @@ def about():
 
     return render_template("about.html")
 
+@app.route("/articles")
+def articles():
+    
+    cursor = mysql.connection.cursor()
+    inquiry = "SELECT * FROM articles"
+    result = cursor.execute(inquiry)
+
+    if result > 0:
+
+        articles = cursor.fetchall()
+
+
+        return render_template("articles.html", articles = articles)
+
+    else:
+        return render_template("articles.html")
 
 @app.route("/dashboard")
 @login_required
 def dashboard():
-    
-    return render_template("dashboard.html")
+
+    cursor = mysql.connection.cursor()
+    inquiry = "SELECT * FROM articles WHERE author = %s"
+    result = cursor.execute(inquiry,(session["username"],))
+
+    if result > 0:
+        articles = cursor.fetchall()
+        return render_template("dashboard.html", articles = articles)
+
+    else:
+        return render_template("dashboard.html")
 
 ### REGISTER
 
@@ -175,6 +200,23 @@ def logout():
     return redirect(url_for("index"))
 
 
+### DETAIL PAGE
+@app.route("/article/<string:id>")
+def article(id):
+
+    cursor = mysql.connection.cursor()
+    inquiry = "SELECT * FROM articles WHERE id = %s"
+    result = cursor.execute(inquiry,(id,))
+
+    if result > 0:
+        
+        article = cursor.fetchone()
+        return render_template("article.html", article = article)
+    
+    else:
+
+        return render_template("article.html")
+
 ### ADD ARTICLE
 
 @app.route("/addarticle", methods = ["GET", "POST"])
@@ -186,8 +228,8 @@ def add_article():
         title = form.title.data
         content = form.content.data
         
-        cursor = mysql.connection.cursor
-        inquiry = "INSERT INTO articles(title, author, content) VALUES(%s,%s,%s)"
+        cursor = mysql.connection.cursor()
+        inquiry = "INSERT INTO articles(title,author,content) VALUES(%s,%s,%s)"
         cursor.execute(inquiry,(title, session["username"], content))
 
         mysql.connection.commit()

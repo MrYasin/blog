@@ -6,9 +6,48 @@
     Control Panel
 </h3>
 
-<small>Welcome, <strong>{{session["username"]}}</strong></small>
+<h5> <small>Welcome, <strong>{{session["username"]}}</strong></small></h5>
 <hr>
 
 <a href="/addarticle" class="btn btn-dark">Add Article</a>
+
+<br>
+
+{% if articles %}
+
+    <table class="table table-hover table-dark">
+        <thead>
+        <tr>
+            <th scope="col">id</th>
+            <th scope="col">Title</th>
+            <th scope="col">Author</th>
+            <th scope="col">Date Created</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+            {% for article in articles %}
+            
+                <tr>
+                    <th scope="row">{{article.id}}</th>
+                    <td><a href="/article/{{article.id}}">{{ article.title }}</a></td>
+                    <td>{{ article.author }}</td>
+                    <td>{{ article.created_date }}</td>
+                    <td><a href="/edit/{{article.id}}" class="btn btn-dark">Update</a></td>
+                    <td><a href="/remove/{{article.id}}" class="btn btn-dark">Remove</a></td>
+                </tr>
+
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% else %}
+    
+    <br>
+    <br>
+    <div class="alert alert-danger">You have no articles yet.</div>
+
+{% endif %}
 
 {% endblock body %}
