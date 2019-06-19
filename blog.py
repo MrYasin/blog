@@ -241,10 +241,34 @@ def add_article():
     return render_template("addarticle.html", form = form)
 
 
+### DELETE ARTICLE
+
+@app.route("/delete/<string:id>")
+@login_required
+def delete(id):
+
+    cursor = mysql.connection.cursor()
+    inquiry = "SELECT * FROM articles WHERE author = %s AND id = %s"
+    result = cursor.execute(inquiry,(session["username"],id))
+
+    if result > 0:
+        
+        inquiry_2 = "DELETE FROM articles WHERE id = %s"
+        result = cursor.execute(inquiry_2, (id,))
+        MySQL.connection.commit()
+
+        return redirect(url_for("dashboard"))
+
+    else:
+        
+        flash("There is no article by that ID or you do not have permission.", "danger")
+        return redirect(url_for("index"))
+
+
 ######################### DEBUG ##############################
 
 if __name__ == "__main__":
 
     app.run(debug=True)
-    
+
 
