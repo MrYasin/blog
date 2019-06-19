@@ -18,7 +18,7 @@ def login_required(f):
             return f(*args, **kwargs)
     
         else:
-            flash("You must be logged in to view this page", "danger")
+            flash("You must be logged in to view this page.", "danger")
             return redirect(url_for("login"))
 
     return decorated_function
@@ -237,6 +237,8 @@ def add_article():
 
         flash("Article added successfuly.","success")
         return redirect(url_for("dashboard"))
+    
+    form.errors()
 
     return render_template("addarticle.html", form = form)
 
@@ -264,7 +266,49 @@ def delete(id):
         flash("There is no article by that ID or you do not have permission.", "danger")
         return redirect(url_for("index"))
 
+### EDIT ARTICLE
 
+@app.route("/edit/<string:id>", methods = ["GET", "POST"])
+@login_required
+def update(id):
+
+    if request.method == "GET":
+        
+        cursor = mysql.connection.cursor()
+        inquiry = "SELECT * FROM articles WHERE id = %s AND author = %s"
+        result = cursor.execute(inquiry,(id,session["username"]))
+
+        if result == 0:
+            flash("There is no article by that ID or you do not have permission.", "danger")
+            return redirect(url_for("index"))
+        
+        else:
+            article = cursor.fetchone()
+            form = Article()
+            form.title.data = article["title"]
+            form.content.data = article["content"] 
+            return render_template("update.html", form = form)
+
+    else: # POST REQUEST #
+        
+        form = Article(request.form)
+
+        new_Title = form.title.data
+        new_Content = form.content.data
+
+        update_inquiry = "UPDATE articles SET title = %s AND content = %s WHERE id = %s"
+        cursor = mysql.connection.cursor()
+        cursor.execute(update_inquiry,(new_Title, new_Content, id))
+
+        mysql.connection.commit()
+        
+        flash("Article updated successfully.")
+        return redirect(url_for("dashboard"))
+
+
+
+
+    
 ######################### DEBUG ##############################
 
 if __name__ == "__main__":

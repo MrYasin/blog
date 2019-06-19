@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+
+
+{% block body %}
+
+<h3><strong>Edit Article</strong></h3>
+<hr>
+
+
+{% from "includes/formhelpers.html" import render_field %}  
+
+<form method = "POST">
+
+    {{ render_field(form.title, class = "form-control") }}
+    {{ render_field(form.content, class = "form-control") }}
+    
+    <br>
+        
+    <button type="submit" class="btn btn-dark">Confirm</button>
+    
+</form>
+
+{% endblock body %}
+
+
