@@ -1,4 +1,4 @@
-Add Article function doesn't work...
+Add Article function doesn't work...  ((FIXED))
 
 google prettify:
 

@@ -255,7 +255,7 @@ def delete(id):
         
         inquiry_2 = "DELETE FROM articles WHERE id = %s"
         result = cursor.execute(inquiry_2, (id,))
-        MySQL.connection.commit()
+        mysql.connection.commit()
 
         return redirect(url_for("dashboard"))
 
@@ -294,13 +294,13 @@ def update(id):
         new_Title = form.title.data
         new_Content = form.content.data
 
-        update_inquiry = "UPDATE articles SET title = %s AND content = %s WHERE id = %s"
+        update_inquiry = "UPDATE articles SET title = %s, content = %s WHERE id = %s"
         cursor = mysql.connection.cursor()
         cursor.execute(update_inquiry,(new_Title, new_Content, id))
 
         mysql.connection.commit()
         
-        flash("Article updated successfully.")
+        flash("Article updated successfully.", "success")
         return redirect(url_for("dashboard"))
 
 
