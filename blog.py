@@ -238,8 +238,6 @@ def add_article():
         flash("Article added successfuly.","success")
         return redirect(url_for("dashboard"))
     
-    form.errors()
-
     return render_template("addarticle.html", form = form)
 
 
@@ -306,8 +304,30 @@ def update(id):
         return redirect(url_for("dashboard"))
 
 
+### SEARCH URL
 
+@app.route("/search", methods = ["GET", "POST"])
+def search():
+    
+    if request.method == "GET":
 
+        return redirect(url_for("index"))
+
+    else:
+
+        keyword = request.form.get("keyword")
+        cursor = mysql.connection.cursor()
+        inquiry = "SELECT * FROM articles WHERE title LIKE '%" + keyword + "%' "
+        result = cursor.execute(inquiry)
+
+        if result == 0:
+            flash("No articles found by that name.", "warning")
+            return redirect(url_for("articles"))
+        
+        else:
+            articles = cursor.fetchall()
+            return render_template("articles.html", articles = articles)
+            
     
 ######################### DEBUG ##############################
 

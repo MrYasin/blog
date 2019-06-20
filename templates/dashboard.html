@@ -12,6 +12,7 @@
 <a href="/addarticle" class="btn btn-dark">Add Article</a>
 
 <br>
+<br>
 
 {% if articles %}
 
@@ -35,7 +36,7 @@
                     <td>{{ article.author }}</td>
                     <td>{{ article.created_date }}</td>
                     <td><a href="/edit/{{article.id}}" class="btn btn-dark">Update</a></td>
-                    <td><a href="/remove/{{article.id}}" class="btn btn-dark">Remove</a></td>
+                    <td><a href="/delete/{{article.id}}" class="btn btn-dark">Remove</a></td>
                 </tr>
 
             {% endfor %}
