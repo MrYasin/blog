@@ -219,26 +219,28 @@ def article(id):
 
 ### ADD ARTICLE
 
-@app.route("/addarticle", methods = ["GET", "POST"])
-def add_article():
-
+@app.route("/addarticle",methods = ["GET","POST"])
+def addarticle():
     form = Article(request.form)
-    if request.method == ["POST"] and form.validate():
-
+    if request.method == "POST" and form.validate():
         title = form.title.data
         content = form.content.data
-        
+
         cursor = mysql.connection.cursor()
-        inquiry = "INSERT INTO articles(title,author,content) VALUES(%s,%s,%s)"
-        cursor.execute(inquiry,(title, session["username"], content))
+
+        sorgu = "Insert into articles(title,author,content) VALUES(%s,%s,%s)"
+
+        cursor.execute(sorgu,(title,session["username"],content))
 
         mysql.connection.commit()
+
         cursor.close()
 
-        flash("Article added successfuly.","success")
+        flash("Makale Başarıyla Eklendi","success")
+
         return redirect(url_for("dashboard"))
-    
-    return render_template("addarticle.html", form = form)
+
+    return render_template("addarticle.html",form = form)
 
 
 ### DELETE ARTICLE
